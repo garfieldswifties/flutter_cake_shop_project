@@ -1,6 +1,6 @@
 # สายด่วนกินเค้ก
 
-สายด่วนกินเค้กเป็นแอปรวมข้อมูลร้านเค้ก 7 ร้านที่พัฒนาด้วย Flutter และ Dart ผู้ใช้เลื่อนดูแบนเนอร์ เลือกร้านเพื่อดูรูปและรายละเอียด แล้วเปิดช่องทางติดต่อหรือดูตำแหน่งร้านบนแผนที่ได้จากหน้ารายละเอียด
+สายด่วนกินเค้กเป็นแอปรวมข้อมูลร้านเค้ก 7 ร้านจากโจทย์รายวิชา พัฒนาด้วย Flutter และ Dart ผู้ใช้ดูรูป รายละเอียด และตำแหน่งร้านบนแผนที่ พร้อมเปิดช่องทางติดต่อจากหน้าร้านได้
 
 ## ฟังก์ชันการทำงาน
 
@@ -12,7 +12,7 @@
 
 ## ภาพหน้าจอแอปพลิเคชัน
 
-ภาพจาก Web build ที่รันใน Chrome headless ห้าภาพแรกตามลำดับไฟล์ใช้ขนาด 440 × 956 และภาพรายละเอียด Bake Ministry ใช้ขนาด 320 × 568
+ภาพจาก Flutter Web ใน Chrome Headless ขนาด 440 × 956 logical pixels ยกเว้นภาพรายละเอียด Bake Ministry ที่ขนาด 320 × 568 logical pixels
 
 | หน้าเปิดแอป | รายการร้าน | รายละเอียดร้าน |
 | :---: | :---: | :---: |
@@ -26,7 +26,7 @@
 
 | เทคโนโลยี / Package | หน้าที่ |
 | --- | --- |
-| Flutter 3.50.0, Dart 3.14.0 และ material_ui | สร้าง UI และจัดการการนำทางระหว่างหน้าจอ |
+| Flutter 3.50.0, Dart 3.14.0 และ `material_ui` | สร้าง UI และจัดการการนำทางระหว่างหน้าจอ |
 | carousel_slider | แสดงแบนเนอร์ที่ปัดและเปลี่ยนภาพอัตโนมัติได้ |
 | flutter_map, latlong2 และ OpenStreetMap | แสดงแผนที่และตำแหน่งร้าน |
 | url_launcher | ส่งเบอร์โทรและลิงก์ไปยังแอปที่รองรับ |
@@ -36,46 +36,46 @@
 
 ## โครงสร้างโปรเจกต์
 
-| ไฟล์ | Class หรือข้อมูล | หน้าที่ |
+| ไฟล์ | Class | หน้าที่ |
 | --- | --- | --- |
+| `lib/main.dart` | `FlutterCakeShopApp` | ตั้งค่าแอปและธีม |
 | `lib/views/splash_screen_ui.dart` | `SplashScreenUI` | เปิดหน้ารายการด้วย `pushReplacement` |
-| `lib/views/cake_shop_list_ui.dart` | `CakeShopListUI` | สร้างแบนเนอร์และรายการจาก List แล้วส่งร้านที่เลือกด้วย `Navigator.push` |
-| `lib/views/cake_shop_detail_ui.dart` | `CakeShopDetailUI` | รับ `CakeShop` ผ่าน constructor และใช้ `widget.cakeShopShow` ใน State |
-| `lib/models/cake_shop.dart` | `CakeShop` | เก็บข้อมูลร้าน 12 ฟิลด์ด้วย named constructor |
-| `lib/models/cake_shop_data.dart` | `cakeShopData`, `cakeShopBanners` | ข้อมูลร้าน 7 ร้านและแบนเนอร์ 7 ภาพจากรายวิชา |
+| `lib/views/cake_shop_list_ui.dart` | `CakeShopListUI` | สร้างรายการและส่งออบเจ็กต์ร้านที่เลือกไปยังหน้ารายละเอียด |
+| `lib/views/cake_shop_detail_ui.dart` | `CakeShopDetailUI` | แสดงรายละเอียดจากออบเจ็กต์ `CakeShop` ที่รับผ่าน constructor |
+| `lib/models/cake_shop.dart` | `CakeShop` | เก็บข้อมูลร้าน |
+| `lib/models/cake_shop_data.dart` | — | เก็บข้อมูลร้านและแบนเนอร์ใน `cakeShopData` และ `cakeShopBanners` |
 | `lib/widgets/cake_shop_map.dart` | `CakeShopMap` | วางหมุดตามพิกัดของร้านที่เลือกและเปิด Google Maps เมื่อแตะ |
-
-ตอนเปิดรายละเอียด แอปส่งออบเจ็กต์ร้านจากรายการโดยตรง รูปหลักของแต่ละร้านจึงใช้ไฟล์เดียวกันในสองหน้า และหน้ารายละเอียดอ่านรูปที่สองกับรูปที่สามจากออบเจ็กต์เดียวกัน แบนเนอร์ `ck01.png`–`ck07.png` เป็นชุดภาพสำหรับ Carousel ของหน้ารายการ
 
 ## การติดตั้งและใช้งาน
 
-ใช้ Flutter 3.50 และ Dart 3.14 เปิด Terminal ในโฟลเดอร์โปรเจกต์แล้วรัน
+ใช้ Flutter SDK ที่รองรับ Dart `^3.14.0` ตาม `pubspec.yaml` เวอร์ชันที่ใช้ทดสอบคือ Flutter 3.50.0 ติดตั้ง Chrome แล้วรันคำสั่งจากโฟลเดอร์โปรเจกต์
 
 ```sh
 flutter pub get
 flutter run -d chrome
 ```
 
-รอหน้าเปิดแอป 3 วินาที แล้วปัดแบนเนอร์หรือรอให้เปลี่ยนภาพอัตโนมัติ แตะแถวร้านหรือไอคอน ⓘ เพื่อดูรูป เวลาเปิดปิด รายละเอียด ที่อยู่ เบอร์โทร และลิงก์ เลื่อนลงเพื่อดูแผนที่ แล้วแตะหมุดเพื่อเปิดตำแหน่งใน Google Maps กดลูกศรบน AppBar เพื่อกลับไปหน้ารายการ
+เลือกร้านจากรายการเพื่อดูรายละเอียด แตะปุ่มโทรหรือลิงก์เพื่อติดต่อร้าน หรือเลื่อนลงแล้วแตะหมุดเพื่อเปิดตำแหน่งใน Google Maps
 
 ## การทดสอบและข้อจำกัด
 
-| รายการ | ผลตามรายงานการทดสอบบน Windows |
+| รายการ | ผล |
 | --- | --- |
-| Flutter Analyze | ผ่านโดยไม่พบปัญหา |
-| Flutter Tests | ผ่าน 6/6 ตรวจการเปิดแอป ลำดับร้าน การนำทาง ข้อมูลและพิกัดทุกร้าน การเปลี่ยนแบนเนอร์ การเลื่อนบนหน้าจอเล็ก URI และการถอดรหัสรูปทั้ง 30 ไฟล์ |
-| Web | Build ผ่านและตรวจด้วย Chrome headless ที่ 440 × 956 และ 320 × 568 |
-| Android | Debug APK build ผ่านและรันบน Android Emulator Pixel 8 Pro API 35 ยืนยันการส่งเบอร์ไปยังแอปโทรศัพท์โดยไม่ได้โทรออก |
+| `flutter analyze` | ผ่านโดยไม่พบปัญหา |
+| `flutter test` | ผ่าน 6/6 ครอบคลุมการนำทาง ข้อมูลและพิกัดร้าน แบนเนอร์ การเลื่อนบนหน้าจอเล็ก URI และการถอดรหัสรูป 30 ไฟล์ |
+| Web build | สร้างสำเร็จ |
+| Web runtime | ตรวจใน Chrome Headless ที่ 440 × 956 และ 320 × 568 logical pixels |
+| Android build | สร้าง debug APK สำเร็จ |
+| Android runtime | ทดสอบบน Android Emulator Pixel 8 Pro API 35 และยืนยันการส่งเบอร์ไปยังแอปโทรศัพท์โดยไม่ได้โทรออก |
+| iOS และอุปกรณ์จริง | ยังไม่ได้ Build สำหรับ iOS และยังไม่ได้รันบน iOS หรืออุปกรณ์จริง |
 
-โปรเจกต์มีโฟลเดอร์ Android, iOS และ Web ผล Build และ Tests มาจากรายงาน Codex เดิม ส่วน Claude Independent Review ไม่มีรายการแก้ไขโค้ดที่จำเป็นและไม่ได้รันคำสั่งซ้ำ iOS ยังไม่ได้ Build หรือรัน และยังไม่ได้ทดสอบบนอุปกรณ์จริง
-
-การเปิดแอปโทรศัพท์ขึ้นกับอุปกรณ์และการตั้งค่าระบบ แผนที่ต้องใช้อินเทอร์เน็ต ลิงก์ร้านอาจเปลี่ยนได้ โดยลิงก์ Facebook ของ Larna House คง `%20` ตามบอร์ดต้นฉบับ
+ข้อมูลร้านและช่องทางติดต่ออ้างอิงชุดข้อมูลรายวิชา รายละเอียดและลิงก์อาจเปลี่ยนได้ ลิงก์ Facebook ของ Larna House คง `%20` ตามต้นฉบับ การเปิดเบอร์และลิงก์ขึ้นอยู่กับแอปที่อุปกรณ์รองรับ และแผนที่ต้องใช้อินเทอร์เน็ต
 
 ## เครดิตและสิทธิ์การใช้งาน
 
 ### ทรัพยากรจากอาจารย์และ Figma
 
-- ข้อมูลร้าน ภาพพื้นหลัง รูปร้าน แบนเนอร์ ไอคอน และแบบหน้าจอมาจาก Resources และ Figma ของรายวิชา ตามข้อมูลที่ผู้เรียนให้ อาจารย์ตอบว่า “จัดได้เลย” เมื่อวันที่ 26 พฤศจิกายน 2569 สำหรับการนำ Resources ที่ให้มาขึ้น Public GitHub เพื่อส่งงาน [Figma ของรายวิชา](https://www.figma.com/design/dDfSU6xj7OqYc8WXSyXXYm/Project--flutter_cake_shop_app?node-id=0-1)
+ข้อมูลร้าน ภาพพื้นหลัง รูปร้าน แบนเนอร์ ไอคอน และหน้าจออ้างอิงจาก Resources และ Figma ของรายวิชา [Figma ของรายวิชา](https://www.figma.com/design/dDfSU6xj7OqYc8WXSyXXYm/Project--flutter_cake_shop_app?node-id=0-1)
 
 ### Fonts, Packages และ Open-source Licenses
 
@@ -85,7 +85,7 @@ flutter run -d chrome
 
 | Package | หน้าที่และ License |
 | --- | --- |
-| `material_ui` 1.11.1 | Material widgets สำหรับ Flutter 3.50 และมาตรฐานของโปรเจกต์รายวิชาก่อนหน้า · [BSD-3-Clause](docs/licenses/material_ui-1.11.1.txt) |
+| `material_ui` 1.11.1 | ส่วนประกอบ Material สำหรับหน้าจอ · [BSD-3-Clause](docs/licenses/material_ui-1.11.1.txt) |
 | `carousel_slider` 5.1.2 | Carousel ที่ปัดและเล่นอัตโนมัติ · [MIT](docs/licenses/carousel_slider-5.1.2.txt) |
 | `flutter_map` 8.3.2 และ `latlong2` 0.9.1 | แสดงแผนที่และพิกัดร้าน · [BSD-3-Clause](docs/licenses/flutter_map-8.3.2.txt) · [Apache-2.0](docs/licenses/latlong2-0.9.1.txt) |
 | `url_launcher` 6.3.3 | เปิดแอปโทร เว็บไซต์ Facebook และ Google Maps · [BSD-3-Clause](docs/licenses/url_launcher-6.3.3.txt) |
@@ -95,5 +95,5 @@ flutter run -d chrome
 
 ### Third-party Assets และ Trademarks
 
-- ภาพร้านค้า แบนเนอร์ ชื่อร้าน และเครื่องหมายการค้าใช้ประกอบหน้าจอตามแบบของรายวิชา การใช้ทรัพยากรเหล่านี้และเครื่องหมาย Facebook ของ Meta อยู่ภายใต้สิทธิ์และเงื่อนไขของเจ้าของแต่ละราย ชุด Resources ไม่มี License แยกสำหรับภาพร้าน และคำอนุญาตของอาจารย์สำหรับการส่งงานไม่ถือเป็นการอนุญาตแทนเจ้าของสิทธิ์บุคคลที่สาม
+- ภาพร้าน แบนเนอร์ ชื่อร้าน และเครื่องหมายการค้า รวมถึงเครื่องหมาย Facebook ของ Meta ใช้ประกอบโปรเจกต์เพื่อการศึกษา สิทธิ์เป็นของเจ้าของแต่ละราย ชุด Resources ไม่มีสัญญาอนุญาตแยกสำหรับภาพร้าน และสิทธิ์เผยแพร่ซ้ำจากเจ้าของภาพยังไม่ได้รับการยืนยัน
 - ข้อมูลแผนที่ © OpenStreetMap contributors อยู่ภายใต้ Open Database License แอปแสดงเครดิตบนแผนที่และโหลด tile ตามนโยบายของบริการ [เครดิตและสิทธิ์ OpenStreetMap](https://www.openstreetmap.org/copyright) · [นโยบาย tile](https://operations.osmfoundation.org/policies/tiles/)
